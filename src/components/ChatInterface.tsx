@@ -460,7 +460,7 @@ export default function ChatInterface() {
       {chatState.messages.length > 0 && (
         <div className="px-8 py-4 border-b border-slate-800/30 bg-slate-950/30">
           <div className="max-w-3xl mx-auto">
-            <p className="text-xs text-slate-500 mb-3 uppercase tracking-wider font-medium">Quick questions</p>
+            <p className="text-xs text-slate-500 mb-3 uppercase tracking-wider font-medium">Quick questions - tap to ask</p>
             <div className="flex gap-2 overflow-x-auto pb-2 scrollbar-hide max-h-[100px]">
               {suggestedQuestions.map((q, i) => (
                 <motion.button
