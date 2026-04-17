@@ -244,6 +244,129 @@ function EducationCard({ data }: { data: CardData }) {
   );
 }
 
+function ImageCard({ data }: { data: CardData }) {
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 20, scale: 0.95 }}
+      animate={{ opacity: 1, y: 0, scale: 1 }}
+      className="bg-gradient-to-br from-slate-800/80 to-slate-900/80 backdrop-blur-xl border border-slate-700/50 rounded-2xl overflow-hidden shadow-2xl"
+    >
+      {data.image && (
+        <div className="relative h-48 overflow-hidden">
+          <img 
+            src={data.image} 
+            alt={data.title} 
+            className="w-full h-full object-cover"
+          />
+          {data.overlay && (
+            <div className="absolute inset-0 bg-gradient-to-t from-slate-900/80 to-transparent" />
+          )}
+        </div>
+      )}
+      <div className="p-5">
+        <div className="flex items-start gap-4">
+          <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-cyan-500 to-blue-600 flex items-center justify-center shadow-lg">
+            <Code className="w-6 h-6 text-white" />
+          </div>
+          <div className="flex-1">
+            <h4 className="text-white font-semibold text-lg">{data.title}</h4>
+            <p className="text-slate-400 text-sm mt-1 line-clamp-2">{data.description}</p>
+          </div>
+        </div>
+        {data.tags && data.tags.length > 0 && (
+          <div className="mt-4 flex flex-wrap gap-2">
+            {data.tags.map((tag: string, i: number) => (
+              <span key={i} className="px-3 py-1 text-xs font-medium bg-slate-700/50 text-slate-300 rounded-full border border-slate-600/50">
+                {tag}
+              </span>
+            ))}
+          </div>
+        )}
+        {data.link && (
+          <a 
+            href={data.link} 
+            target="_blank" 
+            rel="noopener noreferrer"
+            className="mt-4 inline-flex items-center gap-2 text-indigo-400 hover:text-indigo-300 text-sm font-medium"
+          >
+            View Project →
+          </a>
+        )}
+      </div>
+    </motion.div>
+  );
+}
+
+function StatsCard({ data }: { data: CardData }) {
+  const stats = data.stats || [];
+  
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 20, scale: 0.95 }}
+      animate={{ opacity: 1, y: 0, scale: 1 }}
+      className="bg-gradient-to-br from-slate-800/80 to-slate-900/80 backdrop-blur-xl border border-slate-700/50 rounded-2xl p-5 shadow-2xl"
+    >
+      <div className="flex items-start gap-4 mb-4">
+        <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-emerald-500 to-teal-600 flex items-center justify-center shadow-lg">
+          <Sparkles className="w-6 h-6 text-white" />
+        </div>
+        <div className="flex-1">
+          <h4 className="text-white font-semibold text-lg">{data.title}</h4>
+          {data.subtitle && <p className="text-slate-400 text-sm mt-1">{data.subtitle}</p>}
+        </div>
+      </div>
+      <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+        {stats.map((stat: any, i: number) => (
+          <div key={i} className="text-center p-3 bg-slate-800/50 rounded-xl border border-slate-700/30">
+            <p className="text-2xl font-bold text-white">{stat.value}</p>
+            <p className="text-slate-400 text-xs mt-1">{stat.label}</p>
+          </div>
+        ))}
+      </div>
+    </motion.div>
+  );
+}
+
+function TimelineCard({ data }: { data: CardData }) {
+  const items = data.items || [];
+  
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 20, scale: 0.95 }}
+      animate={{ opacity: 1, y: 0, scale: 1 }}
+      className="bg-gradient-to-br from-slate-800/80 to-slate-900/80 backdrop-blur-xl border border-slate-700/50 rounded-2xl p-5 shadow-2xl"
+    >
+      <div className="flex items-start gap-4 mb-4">
+        <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-orange-500 to-amber-600 flex items-center justify-center shadow-lg">
+          <Briefcase className="w-6 h-6 text-white" />
+        </div>
+        <div className="flex-1">
+          <h4 className="text-white font-semibold text-lg">{data.title}</h4>
+          {data.subtitle && <p className="text-slate-400 text-sm mt-1">{data.subtitle}</p>}
+        </div>
+      </div>
+      <div className="space-y-4">
+        {items.map((item: any, i: number) => (
+          <div key={i} className="flex gap-4">
+            <div className="flex flex-col items-center">
+              <div className={`w-3 h-3 rounded-full ${item.active ? 'bg-emerald-500' : 'bg-slate-600'}`}></div>
+              {i < items.length - 1 && <div className="w-0.5 h-full bg-slate-700/50 mt-1"></div>}
+            </div>
+            <div className="flex-1 pb-4">
+              <div className="flex items-center justify-between">
+                <p className="text-white font-medium">{item.title}</p>
+                <span className="text-slate-500 text-xs">{item.period}</span>
+              </div>
+              <p className="text-indigo-400 text-sm">{item.role}</p>
+              {item.description && <p className="text-slate-400 text-sm mt-1">{item.description}</p>}
+            </div>
+          </div>
+        ))}
+      </div>
+    </motion.div>
+  );
+}
+
 function CardRenderer({ cards }: { cards: CardData[] }) {
   return (
     <div className="grid gap-4 mt-4">
@@ -253,6 +376,12 @@ function CardRenderer({ cards }: { cards: CardData[] }) {
             return <ExperienceCard key={i} data={card} />;
           case 'project':
             return <ProjectCard key={i} data={card} />;
+          case 'image-card':
+            return <ImageCard key={i} data={card} />;
+          case 'stats':
+            return <StatsCard key={i} data={card} />;
+          case 'timeline':
+            return <TimelineCard key={i} data={card} />;
           case 'skills':
             return <SkillsCard key={i} data={card} />;
           case 'venture':
@@ -657,12 +786,33 @@ export default function ChatInterface() {
               </div>
               
               <form
-                onSubmit={(e) => {
+                onSubmit={async (e) => {
                   e.preventDefault();
-                  // Handle form submission
-                  console.log("Contact form data:", contactFormData);
-                  setChatState(prev => ({ ...prev, showContactForm: false }));
-                  alert("Thanks for reaching out! I'll get back to you soon.");
+                  // Submit to Notion API
+                  try {
+                    const response = await fetch('/api/contact', {
+                      method: 'POST',
+                      headers: { 'Content-Type': 'application/json' },
+                      body: JSON.stringify({
+                        name: contactFormData.name,
+                        email: contactFormData.email,
+                        phone: contactFormData.phone,
+                        projectType: contactFormData.projectType,
+                        message: contactFormData.message,
+                      }),
+                    });
+                    
+                    if (response.ok) {
+                      setContactFormData({ name: "", email: "", phone: "", projectType: "Other", message: "" });
+                      setChatState(prev => ({ ...prev, showContactForm: false }));
+                      alert("Thanks for reaching out! I'll get back to you soon.");
+                    } else {
+                      alert("Something went wrong. Please try again.");
+                    }
+                  } catch (error) {
+                    console.error("Contact form error:", error);
+                    alert("Something went wrong. Please try again.");
+                  }
                 }}
                 className="space-y-4"
               >
