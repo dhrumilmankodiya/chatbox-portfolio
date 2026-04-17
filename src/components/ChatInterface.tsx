@@ -508,20 +508,20 @@ export default function ChatInterface() {
 
   if (!mounted) {
     return (
-      <div className="h-screen bg-[#0a0a0f] flex items-center justify-center">
+      <div className="h-screen bg-[#fafafa] flex items-center justify-center">
         <div className="w-10 h-10 border-4 border-indigo-500 border-t-transparent rounded-full animate-spin"></div>
       </div>
     );
   }
 
   return (
-    <div className="h-screen bg-[#0a0a0f] flex flex-col text-white font-sans overflow-hidden relative">
+    <div className="h-screen bg-[#fafafa] flex flex-col text-[#111] font-sans overflow-hidden relative">
       {/* Background Effects */}
       <div className="absolute -top-1/4 -left-1/4 w-1/2 h-1/2 bg-gradient-to-br from-indigo-500/10 to-transparent rounded-full blur-3xl pointer-events-none"></div>
       <div className="absolute -bottom-1/4 -right-1/4 w-1/2 h-1/2 bg-gradient-to-br from-purple-500/10 to-transparent rounded-full blur-3xl pointer-events-none"></div>
 
       {/* Header */}
-      <header className="px-8 py-5 border-b border-slate-800/50 flex items-center justify-between bg-slate-950/50 backdrop-blur-xl relative z-10">
+      <header className="px-8 py-5 border-b border-slate-200/50 flex items-center justify-between bg-white/80 backdrop-blur-xl relative z-10">
         <div className="flex items-center gap-4">
           <motion.div 
             initial={{ scale: 0 }}
@@ -531,11 +531,11 @@ export default function ChatInterface() {
             <Bot className="w-6 h-6 text-white" />
           </motion.div>
           <div>
-            <h1 className="text-xl font-semibold bg-gradient-to-r from-white to-slate-400 bg-clip-text text-transparent">
+            <h1 className="text-xl font-semibold text-[#111]">
               Dhrumil
             </h1>
-            <p className="text-xs text-emerald-400 flex items-center gap-2">
-              <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 shadow-[0_0_8px_#10b981]"></span>
+            <p className="text-xs text-emerald-600 flex items-center gap-2">
+              <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 shadow-[0_0_8px_#10b981]"></span>
               Online
             </p>
           </div>
@@ -546,7 +546,7 @@ export default function ChatInterface() {
           <motion.a
             href="/Dhrumil_Mankodiya_CV.pdf"
             download
-            className="hidden md:flex px-4 py-2.5 text-sm font-medium text-slate-300 bg-slate-800/50 hover:bg-slate-700/50 border border-slate-700/50 rounded-xl transition-all items-center gap-2"
+            className="hidden md:flex px-4 py-2.5 text-sm font-medium text-slate-600 bg-slate-100 hover:bg-slate-200 border border-slate-200 rounded-xl transition-all items-center gap-2"
           >
             <Download className="w-4 h-4" />
             <span className="hidden lg:inline">Download CV</span>
@@ -556,7 +556,7 @@ export default function ChatInterface() {
           <motion.a
             href="/Dhrumil_Mankodiya_CV.pdf"
             download
-            className="md:hidden p-2.5 text-sm font-medium text-slate-300 bg-slate-800/50 hover:bg-slate-700/50 border border-slate-700/50 rounded-xl transition-all"
+            className="md:hidden p-2.5 text-sm font-medium text-slate-600 bg-slate-100 hover:bg-slate-200 border border-slate-200 rounded-xl transition-all"
           >
             <Download className="w-4 h-4" />
           </motion.a>
@@ -576,7 +576,7 @@ export default function ChatInterface() {
               initial={{ opacity: 0, scale: 0.9 }}
               animate={{ opacity: 1, scale: 1 }}
               onClick={clearChat}
-              className="px-4 py-2.5 text-sm font-medium text-slate-400 bg-slate-800/50 hover:bg-slate-700/50 border border-slate-700/50 rounded-xl transition-all flex items-center gap-2"
+              className="px-4 py-2.5 text-sm font-medium text-slate-500 bg-slate-100 hover:bg-slate-200 border border-slate-200 rounded-xl transition-all flex items-center gap-2"
             >
               <RefreshCw className="w-4 h-4" />
               <span className="hidden sm:inline">New Chat</span>
