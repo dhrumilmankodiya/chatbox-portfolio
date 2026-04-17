@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Send, Bot, User, Sparkles, RefreshCw, ArrowDown, Briefcase, Code, Palette, Building, Mail, GraduationCap } from "lucide-react";
+import { Send, Bot, User, Sparkles, RefreshCw, ArrowDown, Briefcase, Code, Palette, Building, Mail, GraduationCap, Download, X } from "lucide-react";
 
 interface Message {
   id: string;
@@ -20,15 +20,18 @@ interface CardData {
 interface ChatState {
   messages: Message[];
   isLoading: boolean;
+  showContactForm: boolean;
 }
 
 const suggestedQuestions = [
-  "Tell me about yourself",
-  "Show me your experience",
-  "What projects have you worked on?",
-  "What skills do you have?",
-  "What ventures do you run?",
-  "How can I contact you?",
+  { text: "Tell me about yourself", category: "about" },
+  { text: "Show me your experience", category: "experience" },
+  { text: "What projects have you worked on?", category: "projects" },
+  { text: "What skills do you have?", category: "skills" },
+  { text: "What ventures do you run?", category: "ventures" },
+  { text: "How can I contact you?", category: "contact" },
+  { text: "What's your current work?", category: "current" },
+  { text: "Tell me about FinFly", category: "ventures" },
 ];
 
 // Card Components
@@ -272,8 +275,10 @@ export default function ChatInterface() {
   const [chatState, setChatState] = useState<ChatState>({
     messages: [],
     isLoading: false,
+    showContactForm: false,
   });
   const [showScrollButton, setShowScrollButton] = useState(false);
+  const [contactFormData, setContactFormData] = useState({ name: "", email: "", phone: "", projectType: "Other", message: "" });
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLTextAreaElement>(null);
   const messagesContainerRef = useRef<HTMLDivElement>(null);
@@ -407,18 +412,72 @@ export default function ChatInterface() {
           </div>
         </div>
         
-        {chatState.messages.length > 0 && (
-          <motion.button
-            initial={{ opacity: 0, scale: 0.9 }}
-            animate={{ opacity: 1, scale: 1 }}
-            onClick={clearChat}
-            className="px-4 py-2.5 text-sm font-medium text-slate-400 bg-slate-800/50 hover:bg-slate-700/50 border border-slate-700/50 rounded-xl transition-all flex items-center gap-2"
+        <div className="flex items-center gap-3">
+          {/* Download CV Button - Desktop only */}
+          <motion.a
+            href="/Dhrumil_Mankodiya_CV.pdf"
+            download
+            className="hidden md:flex px-4 py-2.5 text-sm font-medium text-slate-300 bg-slate-800/50 hover:bg-slate-700/50 border border-slate-700/50 rounded-xl transition-all items-center gap-2"
           >
-            <RefreshCw className="w-4 h-4" />
-            New Chat
+            <Download className="w-4 h-4" />
+            <span className="hidden lg:inline">Download CV</span>
+          </motion.a>
+          
+          {/* Mobile: Show icon-only Download CV */}
+          <motion.a
+            href="/Dhrumil_Mankodiya_CV.pdf"
+            download
+            className="md:hidden p-2.5 text-sm font-medium text-slate-300 bg-slate-800/50 hover:bg-slate-700/50 border border-slate-700/50 rounded-xl transition-all"
+          >
+            <Download className="w-4 h-4" />
+          </motion.a>
+          
+          {/* Contact Me Button - Always visible */}
+          <motion.button
+            onClick={() => setChatState(prev => ({ ...prev, showContactForm: true }))}
+            className="px-4 py-2.5 text-sm font-medium text-white bg-gradient-to-r from-indigo-500 to-purple-600 hover:from-indigo-600 hover:to-purple-700 rounded-xl transition-all flex items-center gap-2 shadow-lg shadow-indigo-500/30"
+          >
+            <Mail className="w-4 h-4" />
+            <span className="hidden sm:inline">Contact Me</span>
           </motion.button>
-        )}
+          
+          {/* New Chat - only when messages exist */}
+          {chatState.messages.length > 0 && (
+            <motion.button
+              initial={{ opacity: 0, scale: 0.9 }}
+              animate={{ opacity: 1, scale: 1 }}
+              onClick={clearChat}
+              className="px-4 py-2.5 text-sm font-medium text-slate-400 bg-slate-800/50 hover:bg-slate-700/50 border border-slate-700/50 rounded-xl transition-all flex items-center gap-2"
+            >
+              <RefreshCw className="w-4 h-4" />
+              <span className="hidden sm:inline">New Chat</span>
+            </motion.button>
+          )}
+        </div>
       </header>
+
+      {/* Suggested Questions Chips - Above chat when messages exist, or in welcome screen */}
+      {chatState.messages.length > 0 && (
+        <div className="px-8 py-4 border-b border-slate-800/30 bg-slate-950/30">
+          <div className="max-w-3xl mx-auto">
+            <p className="text-xs text-slate-500 mb-3 uppercase tracking-wider font-medium">Quick questions</p>
+            <div className="flex gap-2 overflow-x-auto pb-2 scrollbar-hide">
+              {suggestedQuestions.map((q, i) => (
+                <motion.button
+                  key={q.text}
+                  initial={{ opacity: 0, x: -10 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ delay: i * 0.05 }}
+                  onClick={() => sendMessage(q.text)}
+                  className="px-4 py-2 text-xs font-medium text-slate-400 bg-slate-800/40 hover:bg-slate-700/40 border border-slate-700/30 hover:border-indigo-500/30 rounded-lg transition-all whitespace-nowrap flex-shrink-0"
+                >
+                  {q.text}
+                </motion.button>
+              ))}
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* Messages */}
       <main 
@@ -452,14 +511,14 @@ export default function ChatInterface() {
               <div className="flex flex-wrap gap-3 justify-center max-w-lg">
                 {suggestedQuestions.map((q, i) => (
                   <motion.button
-                    key={q}
+                    key={q.text}
                     initial={{ opacity: 0, y: 10 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: i * 0.08 }}
-                    onClick={() => sendMessage(q)}
-                    className="px-5 py-3.5 text-sm font-medium text-slate-300 bg-slate-800/50 hover:bg-slate-700/50 border border-slate-700/50 hover:border-indigo-500/30 rounded-xl transition-all hover:-translate-y-0.5"
+                    onClick={() => sendMessage(q.text)}
+                    className="px-5 py-3.5 text-sm font-medium text-slate-300 bg-slate-800/50 hover:bg-slate-700/50 border border-slate-700/50 hover:border-indigo-500/30 rounded-xl transition-all hover:-translate-y-0.5 whitespace-nowrap"
                   >
-                    {q}
+                    {q.text}
                   </motion.button>
                 ))}
               </div>
@@ -549,8 +608,8 @@ export default function ChatInterface() {
               <Send className="w-5 h-5 text-white" />
             </motion.button>
           </div>
-          <p className="text-center text-slate-600 text-xs mt-3">
-            AI-powered responses • Powered by portfolio knowledge
+          <p className="text-right text-slate-600 text-xs mt-2">
+            Powered by <span className="text-slate-500">D.A.R.V.I.S</span>
           </p>
         </div>
       </footer>
@@ -567,6 +626,119 @@ export default function ChatInterface() {
           >
             <ArrowDown className="w-5 h-5" />
           </motion.button>
+        )}
+      </AnimatePresence>
+
+      {/* Contact Form Modal */}
+      <AnimatePresence>
+        {chatState.showContactForm && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 p-4"
+            onClick={() => setChatState(prev => ({ ...prev, showContactForm: false }))}
+          >
+            <motion.div
+              initial={{ scale: 0.9, y: 20 }}
+              animate={{ scale: 1, y: 0 }}
+              exit={{ scale: 0.9, y: 20 }}
+              className="bg-slate-900 border border-slate-700/50 rounded-2xl p-6 w-full max-w-md shadow-2xl"
+              onClick={(e) => e.stopPropagation()}
+            >
+              <div className="flex items-center justify-between mb-6">
+                <h3 className="text-xl font-semibold text-white">Get in Touch</h3>
+                <button
+                  onClick={() => setChatState(prev => ({ ...prev, showContactForm: false }))}
+                  className="text-slate-400 hover:text-white transition-colors"
+                >
+                  <X className="w-5 h-5" />
+                </button>
+              </div>
+              
+              <form
+                onSubmit={(e) => {
+                  e.preventDefault();
+                  // Handle form submission
+                  console.log("Contact form data:", contactFormData);
+                  setChatState(prev => ({ ...prev, showContactForm: false }));
+                  alert("Thanks for reaching out! I'll get back to you soon.");
+                }}
+                className="space-y-4"
+              >
+                <div>
+                  <label className="block text-slate-400 text-sm mb-2">Name</label>
+                  <input
+                    type="text"
+                    value={contactFormData.name}
+                    onChange={(e) => setContactFormData({ ...contactFormData, name: e.target.value })}
+                    className="w-full bg-slate-800/50 border border-slate-700/50 rounded-xl px-4 py-3 text-white placeholder-slate-500 focus:border-indigo-500/50 focus:outline-none transition-colors"
+                    placeholder="Your name"
+                    required
+                  />
+                </div>
+                
+                <div>
+                  <label className="block text-slate-400 text-sm mb-2">Email</label>
+                  <input
+                    type="email"
+                    value={contactFormData.email}
+                    onChange={(e) => setContactFormData({ ...contactFormData, email: e.target.value })}
+                    className="w-full bg-slate-800/50 border border-slate-700/50 rounded-xl px-4 py-3 text-white placeholder-slate-500 focus:border-indigo-500/50 focus:outline-none transition-colors"
+                    placeholder="your@email.com"
+                    required
+                  />
+                </div>
+                
+                <div>
+                  <label className="block text-slate-400 text-sm mb-2">Phone (optional)</label>
+                  <input
+                    type="tel"
+                    value={contactFormData.phone}
+                    onChange={(e) => setContactFormData({ ...contactFormData, phone: e.target.value })}
+                    className="w-full bg-slate-800/50 border border-slate-700/50 rounded-xl px-4 py-3 text-white placeholder-slate-500 focus:border-indigo-500/50 focus:outline-none transition-colors"
+                    placeholder="+91 9022553177"
+                  />
+                </div>
+                
+                <div>
+                  <label className="block text-slate-400 text-sm mb-2">Project Type</label>
+                  <select
+                    value={contactFormData.projectType}
+                    onChange={(e) => setContactFormData({ ...contactFormData, projectType: e.target.value })}
+                    className="w-full bg-slate-800/50 border border-slate-700/50 rounded-xl px-4 py-3 text-white focus:border-indigo-500/50 focus:outline-none transition-colors"
+                  >
+                    <option value="UI/UX Design">UI/UX Design</option>
+                    <option value="Product Design">Product Design</option>
+                    <option value="Design System">Design System</option>
+                    <option value="Consulting">Consulting</option>
+                    <option value="Other">Other</option>
+                  </select>
+                </div>
+                
+                <div>
+                  <label className="block text-slate-400 text-sm mb-2">Message</label>
+                  <textarea
+                    value={contactFormData.message}
+                    onChange={(e) => setContactFormData({ ...contactFormData, message: e.target.value })}
+                    rows={3}
+                    className="w-full bg-slate-800/50 border border-slate-700/50 rounded-xl px-4 py-3 text-white placeholder-slate-500 focus:border-indigo-500/50 focus:outline-none transition-colors resize-none"
+                    placeholder="Tell me about your project..."
+                    required
+                  />
+                </div>
+                
+                <motion.button
+                  type="submit"
+                  whileHover={{ scale: 1.02 }}
+                  whileTap={{ scale: 0.98 }}
+                  className="w-full py-3 bg-gradient-to-r from-indigo-500 to-purple-600 text-white font-medium rounded-xl shadow-lg shadow-indigo-500/30 hover:from-indigo-600 hover:to-purple-700 transition-all"
+                >
+                  Send Message
+                </motion.button>
+              </form>
+            </motion.div>
+          </motion.div>
         )}
       </AnimatePresence>
     </div>
