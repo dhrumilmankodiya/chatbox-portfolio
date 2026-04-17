@@ -370,7 +370,7 @@ export default function ChatInterface() {
   };
 
   const clearChat = () => {
-    setChatState({ messages: [], isLoading: false });
+    setChatState({ messages: [], isLoading: false, showContactForm: false });
   };
 
   const scrollToBottom = () => {
