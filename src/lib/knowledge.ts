@@ -16,7 +16,7 @@ export const knowledgeBase: KnowledgeItem[] = [
     id: 'about-1',
     category: 'about',
     title: 'About Dhrumil',
-    content: `Hi, I'm Dhrumil Mankodiya, Product Designer / UI UX Designer with over 6 years of experience. Dynamic and result-oriented designer crafting user-centric digital experiences. Integration of user psychology with innovative design strategies to deliver high-impact solutions.`,
+    content: `A Product Designer with 6+ years of experience in UI/UX design, user research, and interface design. Led projects like Reliance General Insurance website redesign, Student Care platform for Vibgyor Schools, and Cogno AI interface redesign. Additionally, worked on Smart Staff Selection (SSS) and Learning Management System (LMS) wherein I designed Admin, Teacher, and Student profiles. My work consistently enhances user engagement, improves usability, and drives measurable results.`,
     metadata: { age: 23 },
     keywords: ['about', 'who', 'intro', 'me', 'myself', 'hi', 'hello']
   },
@@ -47,7 +47,7 @@ export const knowledgeBase: KnowledgeItem[] = [
     id: 'exp-2',
     category: 'experience',
     title: 'Hubble Hox',
-    content: 'UI/UX Designer at Hubble Hox Grp. Spearheaded the design of complex interfaces focusing on enhancing usability and visual appeal. 2022-2024.',
+    content: 'UI/UX Designer at Hubble Hox Grp. Spearheaded the design of complex interfaces focusing on enhancing usability and visual appeal. Notable Project: Student Care Platform Revamp for Vibgyor Schools - Enhanced the eCommerce platform by optimizing the user interface (UI), focusing on usability for both students and parents. 2022-2024.',
     metadata: {
       company: 'Hubble Hox',
       role: 'UI/UX Designer',
@@ -56,6 +56,7 @@ export const knowledgeBase: KnowledgeItem[] = [
       type: 'Full Time',
       highlights: [
         'Spearheaded design of complex interfaces',
+        'Student Care Platform for Vibgyor Schools',
         'Enhanced usability and visual appeal',
         'Conducted user research and usability testing'
       ]
@@ -204,10 +205,10 @@ export const knowledgeBase: KnowledgeItem[] = [
     id: 'skill-3',
     category: 'skills',
     title: 'Languages',
-    content: 'Fluent in English, Hindi, and Gujarati.',
+    content: 'Fluent in English, Hindi, and Gujrati.',
     metadata: {
       category: 'Languages',
-      items: ['English', 'Hindi', 'Gujarati']
+      items: ['English', 'Hindi', 'Gujrati']
     },
     keywords: ['language', 'english', 'hindi', 'gujrati', 'speak']
   },
@@ -293,6 +294,32 @@ export const knowledgeBase: KnowledgeItem[] = [
       category: 'Fintech'
     },
     keywords: ['kotak', 'trading', 'stocks', 'securities', 'platform']
+  },
+  {
+    id: 'proj-6',
+    category: 'projects',
+    title: 'Smart Staff Selection (SSS)',
+    content: 'UI/UX design project focusing on Admin, Teacher, and Student profiles to ensure a seamless experience across all user types. Optimized the platform for different user needs and improved usability across profiles.',
+    metadata: {
+      name: 'Smart Staff Selection (SSS)',
+      tags: ['EdTech', 'Profile-Based Design', 'UX'],
+      highlights: ['Profile-based design', 'Admin/Teacher/Student interfaces', 'Improved usability'],
+      category: 'EdTech'
+    },
+    keywords: ['sss', 'smart staff selection', 'admin', 'teacher', 'student', 'profile']
+  },
+  {
+    id: 'proj-7',
+    category: 'projects',
+    title: 'Learning Management System (LMS)',
+    content: 'UI/UX design for Learning Management System, focusing on Admin, Teacher, and Student profiles to create a tailored, intuitive experience. Worked on optimizing the platform for different user needs and improving usability across all profiles.',
+    metadata: {
+      name: 'Learning Management System (LMS)',
+      tags: ['EdTech', 'E-Learning', 'Profile-Based Design'],
+      highlights: ['Tailored user experience', 'Profile optimization', 'Intuitive interface'],
+      category: 'EdTech'
+    },
+    keywords: ['lms', 'learning management system', 'education', 'teacher', 'student', 'admin']
   },
 
   // VENTURES
@@ -380,9 +407,9 @@ export const knowledgeBase: KnowledgeItem[] = [
     id: 'contact-1',
     category: 'contact',
     title: 'Contact Information',
-    content: 'Phone: 9022553177, Email: dhrumilmm121@gmail.com, LinkedIn: linkedin.com/in/dhrumil-mankodiya-48435719b, Dribbble: dribbble.com/dhrumilmankodiya',
+    content: 'Phone: +91 9022553177, Email: dhrumilmm121@gmail.com, LinkedIn: linkedin.com/in/dhrumil-mankodiya-48435719b, Dribbble: dribbble.com/dhrumilmankodiya, Portfolio: dhrumilmankodiya.vercel.app',
     metadata: {
-      phone: '9022553177',
+      phone: '+91 9022553177',
       email: 'dhrumilmm121@gmail.com',
       linkedin: 'linkedin.com/in/dhrumil-mankodiya-48435719b',
       dribbble: 'dhrumilmankodiya'
